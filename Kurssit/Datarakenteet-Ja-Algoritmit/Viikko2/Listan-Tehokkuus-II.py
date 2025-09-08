@@ -1,7 +1,7 @@
 from time import time
 
 if __name__ == '__main__':
-    rounds = 1000
+    rounds = 100
     n = 10 ** 5
     add_avg = 0
     remove_avg = 0
@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
         start_time = time()
         for i in range(n):
-            del numbers[-1]
+            del numbers[0]
         remove_avg += time()-start_time
 
     add_avg /= rounds
