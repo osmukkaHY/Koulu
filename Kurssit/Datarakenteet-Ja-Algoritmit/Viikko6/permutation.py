@@ -1,52 +1,26 @@
 class PermutationTracker:
     def __init__(self):
-        self._numbers_set       = set()
-        self._numbers           = []
-        self._is_permutation    = True
+        self.numbers = set()
+        self.sum = 0
+        self.max_number = 0
+        self.number_count = 0
+        self.has_duplicates = False
 
     def append(self, number):
-        if number in self._numbers_set:
-            self._is_permutation = False
+        self.number_count += 1
+        if number in self.numbers:
+            self.has_duplicates = True
             return
 
-        self._numbers += [0 for x in range(number-len(self._numbers))]
-        self._numbers[number-1] = number
-        self._numbers_set.add(number)
-        self._is_permutation = True if 0 not in self._numbers else False
+        self.numbers.add(number)
+        self.sum += number
+        if number > self.max_number:
+            self.max_number = number
 
     def check(self):
-        return self._is_permutation
+        if self.has_duplicates or self.max_number != self.number_count:
+            return False
 
+        expected_sum = self.number_count * (self.number_count + 1) / 2
+        return self.sum == expected_sum
 
-if __name__ == "__main__":
-    tracker = PermutationTracker()
-
-    tracker.append(1)
-    print(tracker.check()) # True
-
-    tracker.append(4)
-    print(tracker.check()) # False
-
-    tracker.append(2)
-    print(tracker.check()) # False
-
-    tracker.append(3)
-    print(tracker.check()) # True
-
-    tracker.append(2)
-    print(tracker.check()) # False
-
-    tracker.append(5)
-    print(tracker.check()) # False
-
-
-    tracker = PermutationTracker()
-    total = 0
-    for i in range(10**5):
-        if i%2 == 0:
-            tracker.append(i + 2)
-        else:
-            tracker.append(i)
-        if tracker.check():
-            total += 1
-    print(total) # 50000
